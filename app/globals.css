@@ -1,0 +1,444 @@
+@import "tailwindcss";
+
+/* =========================================================
+   CONTENT DECODED — Design tokens
+   Oxblood (#460202) + Gold (#f3d58f) premium dark system
+   ========================================================= */
+@theme {
+  /* Oxblood scale (brand background = 700) */
+  --color-oxblood-950: #150000;
+  --color-oxblood-900: #210101;
+  --color-oxblood-850: #2b0101;
+  --color-oxblood-800: #380202;
+  --color-oxblood-700: #460202;
+  --color-oxblood-600: #5a0c0c;
+  --color-oxblood-500: #6f1717;
+
+  /* Gold scale (brand text/accent = 300) */
+  --color-gold-50: #fdf8ec;
+  --color-gold-100: #fbf0d4;
+  --color-gold-200: #f8e6b8;
+  --color-gold-300: #f3d58f;
+  --color-gold-400: #e7c074;
+  --color-gold-500: #d9a441;
+  --color-gold-600: #c0892e;
+
+  /* Semantic */
+  --color-background: #2b0101;
+  --color-surface: #380202;
+  --color-foreground: #f1e5cb;
+  --color-muted: #c9ac82;
+
+  --radius-card: 1.25rem;
+}
+
+@theme inline {
+  --font-display: "Beckman", var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-accent: "Quarzo", var(--font-sora), cursive;
+}
+
+/* =========================================================
+   Self-hosted brand fonts
+   Drop your files into /public/fonts/ with these exact names
+   and they load automatically. .woff2 preferred; .woff/.otf/.ttf
+   also supported. Until then, premium fallbacks are used.
+   ========================================================= */
+@font-face {
+  font-family: "Beckman";
+  src: url("/fonts/Beckman.woff2") format("woff2"),
+       url("/fonts/Beckman.woff") format("woff"),
+       url("/fonts/Beckman.otf") format("opentype"),
+       url("/fonts/Beckman.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Quarzo";
+  src: url("/fonts/Quarzo.woff2") format("woff2"),
+       url("/fonts/Quarzo.woff") format("woff"),
+       url("/fonts/Quarzo.otf") format("opentype"),
+       url("/fonts/Quarzo.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =========================================================
+   Base (element-level defaults)
+   ========================================================= */
+@layer base {
+  :root { color-scheme: dark; }
+
+  * { -webkit-tap-highlight-color: transparent; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--color-oxblood-850);
+    background-image:
+      radial-gradient(1100px 620px at 50% -8%, rgba(243, 213, 143, 0.15), transparent 60%),
+      radial-gradient(820px 520px at 88% 6%, rgba(217, 164, 65, 0.10), transparent 55%),
+      radial-gradient(760px 560px at 16% 40%, rgba(243, 213, 143, 0.07), transparent 60%),
+      radial-gradient(820px 600px at 84% 72%, rgba(217, 164, 65, 0.07), transparent 60%),
+      radial-gradient(700px 600px at 6% 22%, rgba(111, 23, 23, 0.45), transparent 60%),
+      linear-gradient(180deg, #2a0101 0%, #3a0202 42%, #260101 100%);
+    background-attachment: fixed;
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: #f7ecd4;
+  }
+
+  p { text-wrap: pretty; }
+  h1, h2, h3 { text-wrap: balance; }
+
+  ::selection { background: rgba(243, 213, 143, 0.28); color: #fff7e6; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-300);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar { width: 11px; }
+  ::-webkit-scrollbar-track { background: #1d0000; }
+  ::-webkit-scrollbar-thumb { background: #5a0c0c; border-radius: 999px; border: 2px solid #1d0000; }
+  ::-webkit-scrollbar-thumb:hover { background: #6f1717; }
+}
+
+/* =========================================================
+   Components / helpers
+   (in @layer components so Tailwind utilities can override)
+   ========================================================= */
+@layer components {
+  .container-px {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 76rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) { .container-px { padding-inline: 2rem; } }
+
+  .section {
+    position: relative;
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+  }
+
+  .hairline {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(243, 213, 143, 0.25), transparent);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gold-300);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold-400));
+  }
+
+  .gold-text {
+    background: linear-gradient(176deg, #fbf0d4 0%, #f3d58f 42%, #d9a441 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Quarzo script accent for highlighted heading words */
+  .gold-script {
+    font-family: var(--font-accent);
+    font-weight: 400;
+    font-style: normal;
+    display: inline-block;
+    vertical-align: baseline;
+    font-size: 1.06em;
+    line-height: 1.05;
+    letter-spacing: 0;
+    /* Generous vertical padding so the clipped gold gradient fully covers the
+       script's tall caps + deep descenders. No negative margins, so adjacent
+       heading lines can never crowd or crop the glyphs. */
+    padding: 0.24em 0.22em 0.36em;
+    background: linear-gradient(176deg, #fbf0d4 0%, #f3d58f 42%, #d9a441 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .muted { color: var(--color-muted); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.98rem;
+    line-height: 1;
+    padding: 0.95rem 1.5rem;
+    min-height: 48px;
+    border-radius: 999px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.28s ease, background-color 0.25s ease,
+                color 0.2s ease, border-color 0.25s ease;
+    will-change: transform;
+  }
+  .btn svg { width: 1.05rem; height: 1.05rem; }
+
+  .btn-primary {
+    color: #3a0202;
+    background: linear-gradient(180deg, #f9e9bd 0%, #f3d58f 48%, #e0b85f 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                0 10px 30px -12px rgba(243, 213, 143, 0.6);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55),
+                0 20px 48px -14px rgba(243, 213, 143, 0.75);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-ghost {
+    color: var(--color-gold-200);
+    background: rgba(243, 213, 143, 0.05);
+    border: 1px solid rgba(243, 213, 143, 0.22);
+  }
+  .btn-ghost:hover {
+    transform: translateY(-2px);
+    background: rgba(243, 213, 143, 0.11);
+    border-color: rgba(243, 213, 143, 0.5);
+    color: #fff6e3;
+  }
+
+  /* Quarzo script label, used on the "Book a discovery call" CTA */
+  .btn-script {
+    font-family: var(--font-accent);
+    font-weight: 400;
+    font-size: 1.18rem;
+    letter-spacing: 0;
+  }
+
+  /* Surfaces */
+  .glass {
+    background: rgba(56, 2, 2, 0.55);
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid rgba(243, 213, 143, 0.14);
+  }
+
+  .card {
+    position: relative;
+    border-radius: var(--radius-card);
+    background: linear-gradient(180deg, rgba(90, 12, 12, 0.32), rgba(43, 1, 1, 0.5));
+    border: 1px solid rgba(243, 213, 143, 0.12);
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.32s ease, box-shadow 0.32s ease,
+                background-color 0.32s ease;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(243, 213, 143, 0.36);
+    box-shadow: 0 26px 60px -28px rgba(0, 0, 0, 0.8);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-gold-200);
+    background: rgba(243, 213, 143, 0.06);
+    border: 1px solid rgba(243, 213, 143, 0.16);
+    backdrop-filter: blur(6px);
+  }
+
+  .icon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.9rem;
+    color: var(--color-gold-300);
+    background: linear-gradient(180deg, rgba(243, 213, 143, 0.16), rgba(243, 213, 143, 0.04));
+    border: 1px solid rgba(243, 213, 143, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  .icon-tile svg { width: 1.5rem; height: 1.5rem; }
+
+  /* Decorative glows / orbs */
+  .orb {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(64px);
+    pointer-events: none;
+    will-change: transform;
+    z-index: 0;
+  }
+  .animate-floatA { animation: floatA 13s ease-in-out infinite; }
+  .animate-floatB { animation: floatB 16s ease-in-out infinite; }
+  .animate-drift { animation: drift 6s ease-in-out infinite; }
+  .animate-spin-slow { animation: spinSlow 24s linear infinite; }
+  .animate-pulse-glow { animation: pulseGlow 4s ease-in-out infinite; }
+  .scroll-cue-dot { animation: scrollCue 2.2s ease-in-out infinite; }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.is-visible { opacity: 1; transform: none; }
+
+  /* Marquee */
+  .marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 3rem;
+    animation: marquee 32s linear infinite;
+  }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+
+  /* Mobile swipe carousels (pricing, results) */
+  .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .carousel-fade {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  /* Directional edge fades — toggled by scroll position so the blur only
+     appears on the side that still has more cards. */
+  .carousel-fade-right {
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 80%, transparent);
+    mask-image: linear-gradient(90deg, #000 0, #000 80%, transparent);
+  }
+  .carousel-fade-left {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 20%, #000 100%);
+    mask-image: linear-gradient(90deg, transparent, #000 20%, #000 100%);
+  }
+  .carousel-fade-both {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  /* Native FAQ accordion */
+  details.faq { border-bottom: 1px solid rgba(243, 213, 143, 0.14); }
+  details.faq summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.4rem 0.25rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #f4e8cf;
+    transition: color 0.2s ease;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary:hover { color: var(--color-gold-300); }
+  details.faq summary .faq-plus { flex: none; transition: transform 0.3s ease; color: var(--color-gold-400); }
+  details.faq[open] summary .faq-plus { transform: rotate(45deg); }
+  details.faq .faq-body { padding: 0 0.25rem 1.4rem; color: var(--color-muted); max-width: 60ch; }
+
+  /* Grain overlay */
+  .noise {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* =========================================================
+   Keyframes
+   ========================================================= */
+@keyframes floatA {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -28px, 0) scale(1.07); }
+}
+@keyframes floatB {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(24px, 18px, 0) scale(1.1); }
+}
+@keyframes drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+}
+@keyframes scrollCue {
+  0% { transform: translateY(0); opacity: 0; }
+  35% { opacity: 1; }
+  70% { transform: translateY(10px); opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Carousels become normal grids on large screens (no edge fade) */
+@media (min-width: 1024px) {
+  .carousel-fade { -webkit-mask-image: none; mask-image: none; }
+}
+
+/* =========================================================
+   Reduced motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .marquee-track { animation: none !important; }
+}
